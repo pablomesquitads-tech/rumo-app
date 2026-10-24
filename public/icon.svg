@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#FBFCFC"/>
+  <g transform="translate(56 56) scale(4)">
+    <g fill="#A8126F">
+      <path d="M50 8 56 44 50 50Z"/>
+      <path d="M50 8 44 44 50 50Z" fill-opacity=".28"/>
+      <path d="M92 50 56 56 50 50Z"/>
+      <path d="M92 50 56 44 50 50Z" fill-opacity=".28"/>
+      <path d="M50 92 44 56 50 50Z"/>
+      <path d="M50 92 56 56 50 50Z" fill-opacity=".28"/>
+      <path d="M8 50 44 44 50 50Z"/>
+      <path d="M8 50 44 56 50 50Z" fill-opacity=".28"/>
+      <path d="M74 26 53 47 50 50Z" fill-opacity=".55"/>
+      <path d="M74 74 53 53 50 50Z" fill-opacity=".55"/>
+      <path d="M26 74 47 53 50 50Z" fill-opacity=".55"/>
+      <path d="M26 26 47 47 50 50Z" fill-opacity=".55"/>
+    </g>
+    <circle cx="50" cy="50" r="2.6" fill="#FBFCFC" stroke="#A8126F" stroke-width="1"/>
+  </g>
+</svg>

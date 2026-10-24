@@ -1,0 +1,246 @@
+@import '@fontsource-variable/archivo/standard.css';
+@import '@fontsource-variable/archivo/standard-italic.css';
+@import 'tailwindcss';
+
+/* Carta ECDIS — modo Dia (padrão). Tokens semânticos; o modo Noite redefine os mesmos nomes. */
+:root {
+  --paper: #fbfcfc;        /* águas profundas: o branco da carta */
+  --paper-2: #f2f6f7;      /* painel */
+  --paper-3: #e8eff2;      /* campo pressionado */
+  --shoal: #d8e9f1;        /* águas rasas */
+  --shoal-2: #b9d6e5;      /* isóbata */
+  --shoal-3: #7fb0cb;
+  --land: #ece0bd;         /* terra buff, só em campos pequenos */
+  --ink: #13202b;          /* tinta */
+  --ink-2: #44535f;        /* secundária (7.4:1) */
+  --ink-3: #5f6e79;        /* terciária / placeholder (5.1:1) */
+  --rule: #c9d5dc;         /* hairline */
+  --rule-2: #aebdc6;
+  --sea: #1d5a84;          /* dado principal */
+  --magenta: #a8126f;      /* acento de carta (6.9:1) */
+  --magenta-ink: #ffffff;
+  --magenta-soft: #f7e1ee;
+  --go: #1f6e4f;           /* boia verde: confirmação */
+  --go-soft: #dcefe6;
+  --light: #9a5d06;        /* característica de farol: mudança/atenção (não punitivo) */
+  --light-soft: #f6e8cf;
+  --focus: #a8126f;
+  --scrim: rgb(19 32 43 / 0.42);
+  --shadow: 0 1px 0 rgb(19 32 43 / 0.04), 0 12px 32px -18px rgb(19 32 43 / 0.28);
+  color-scheme: light;
+}
+
+:root[data-chart='night'] {
+  --paper: #0b1117;
+  --paper-2: #101922;
+  --paper-3: #16222d;
+  --shoal: #12263a;
+  --shoal-2: #1b3a55;
+  --shoal-3: #2f6488;
+  --land: #2a2619;
+  --ink: #c9d4dc;
+  --ink-2: #93a3af;
+  --ink-3: #7a8b97;
+  --rule: #213140;
+  --rule-2: #2e4253;
+  --sea: #6aa6cf;
+  --magenta: #e0559f;
+  --magenta-ink: #12070d;
+  --magenta-soft: #3a1529;
+  --go: #5fbf93;
+  --go-soft: #133226;
+  --light: #e1a646;
+  --light-soft: #33260f;
+  --focus: #e0559f;
+  --scrim: rgb(0 0 0 / 0.6);
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 40px -20px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
+}
+
+@theme {
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-shoal: var(--shoal);
+  --color-shoal-2: var(--shoal-2);
+  --color-shoal-3: var(--shoal-3);
+  --color-land: var(--land);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-2: var(--rule-2);
+  --color-sea: var(--sea);
+  --color-magenta: var(--magenta);
+  --color-magenta-ink: var(--magenta-ink);
+  --color-magenta-soft: var(--magenta-soft);
+  --color-go: var(--go);
+  --color-go-soft: var(--go-soft);
+  --color-light: var(--light);
+  --color-light-soft: var(--light-soft);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    background: var(--paper);
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
+    font-variation-settings: 'wdth' 100;
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+  ::selection {
+    background: var(--magenta);
+    color: var(--magenta-ink);
+  }
+  input,
+  textarea,
+  select {
+    caret-color: var(--magenta);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule-2) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--rule-2);
+    border-radius: 10px;
+    border: 3px solid var(--paper);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  /* Títulos: Archivo expandido, a voz das legendas de carta. */
+  .t-display {
+    font-variation-settings: 'wdth' 118;
+    font-weight: 640;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+  }
+  .t-title {
+    font-variation-settings: 'wdth' 112;
+    font-weight: 620;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  /* Rótulos de dado: condensado em caixa alta. */
+  .t-label {
+    font-variation-settings: 'wdth' 78;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  /* Plano se-então: itálico, como nome de acidente hidrográfico. */
+  .t-plan {
+    font-style: italic;
+    font-variation-settings: 'wdth' 96;
+    font-weight: 450;
+  }
+  .t-num {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+  }
+  .t-cond {
+    font-variation-settings: 'wdth' 82;
+  }
+
+  /* Retícula da carta: a armadura de 8px visível. */
+  .graticule {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--rule) 55%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--rule) 55%, transparent) 1px, transparent 1px);
+    background-size: 96px 96px;
+    background-position: -1px -1px;
+  }
+
+  /* Barra de escala alternada da moldura (neatline). */
+  .neatline-x {
+    height: 5px;
+    background: repeating-linear-gradient(to right, var(--ink) 0 24px, var(--paper) 24px 48px);
+    border-block: 1px solid var(--ink);
+  }
+  .neatline-y {
+    width: 5px;
+    background: repeating-linear-gradient(to bottom, var(--ink) 0 24px, var(--paper) 24px 48px);
+    border-inline: 1px solid var(--ink);
+  }
+
+  .hairline {
+    border-color: var(--rule);
+  }
+
+  .safe-b {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-t {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}
