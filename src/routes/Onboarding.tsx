@@ -260,7 +260,7 @@ export default function Onboarding() {
     const patch = (k: keyof typeof c, v: string) => setProfile({ contacts: { ...c, [k]: v || undefined } });
     body = (
       <>
-        <FlowQuestion sub="Opcional. Nome e telefone ficam só neste aparelho e aparecem na tela de Ajuda.">Quem pode ajudar?</FlowQuestion>
+        <FlowQuestion sub="Opcional. Nome e telefone ficam cifrados na sua conta e aparecem na tela de Ajuda.">Quem pode ajudar?</FlowQuestion>
         <div className="flex flex-col gap-5">
           <TextField label="Psicologia da universidade" placeholder="Serviço-escola, (11) 0000-0000" value={c.psychology ?? ''} onChange={(e) => patch('psychology', e.target.value)} />
           <TextField label="Psiquiatra" placeholder="Dra. Ana, (11) 90000-0000" value={c.psychiatrist ?? ''} onChange={(e) => patch('psychiatrist', e.target.value)} />
@@ -317,7 +317,7 @@ function Welcome({ onStart }: { onStart: () => void }) {
             Para começar a estudar, atravessar o impulso e voltar ao rumo quando escapar.
           </p>
           <p className="mt-6 max-w-[30rem] border-t border-rule pt-4 text-[1.0625rem] leading-relaxed text-ink-2">
-            Tudo fica neste aparelho, cifrado. Sem conta, sem nuvem, sem análise de uso.
+            Seus registros são cifrados no aparelho antes de ir para a sua conta. Sem análise de uso.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
             <Button variant="primary" size="lg" onClick={onStart}>
