@@ -15,7 +15,7 @@ export default defineConfig({
       manifest: {
         name: 'Rumo',
         short_name: 'Rumo',
-        description: 'Autorregulação para estudar com TDAH. Dados só no seu aparelho.',
+        description: 'Autorregulação para estudar com TDAH. Dados cifrados no seu aparelho.',
         lang: 'pt-BR',
         start_url: '/',
         scope: '/',

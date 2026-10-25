@@ -14,6 +14,7 @@ import { FOCUS_PRESETS } from '@/lib/defaults';
 import { CSV_COLLECTIONS, exportCSV, exportJSON, parseBackup, type ParseResult } from '@/lib/export';
 import { MAX_PER_DAY, QUIET_FROM, QUIET_UNTIL, canNotify } from '@/lib/notifications';
 import { hasPin, setPin } from '@/lib/storage';
+import { accountEmail } from '@/lib/cloud';
 import type { ThemePref } from '@/lib/types';
 
 type Parsed = Extract<ParseResult, { ok: true }>;
@@ -25,6 +26,7 @@ export default function Settings() {
   const setSettings = useApp((s) => s.setSettings);
   const setProfile = useApp((s) => s.setProfile);
   const importData = useApp((s) => s.importData);
+  const signOut = useApp((s) => s.signOut);
 
   const [pin, setPinState] = useState(false);
   const [pinA, setPinA] = useState('');
@@ -88,7 +90,7 @@ export default function Settings() {
 
   return (
     <Page>
-      <ScreenHeader title="Ajustes" description="Tudo fica só neste aparelho, cifrado. Nada é enviado para fora." />
+      <ScreenHeader title="Ajustes" description="Os registros são cifrados neste aparelho antes de ir para a sua conta. O servidor só guarda texto ilegível." />
 
       <div className="grid gap-x-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col">
@@ -150,6 +152,15 @@ export default function Settings() {
         </div>
 
         <div className="flex min-w-0 flex-col">
+          <Section label="Conta" aside={<span>sincronizando</span>}>
+            <p className="text-[0.9375rem] text-ink-2">
+              Conectado como <span className="text-ink">{accountEmail()}</span>. As mudanças vão para a nuvem e aparecem nos outros aparelhos em que você entrar.
+            </p>
+            <Button variant="secondary" className="self-start" onClick={() => void signOut()}>
+              Sair da conta
+            </Button>
+          </Section>
+
           <Section label="PIN" aside={<span>{pin ? 'ativo' : 'desativado'}</span>}>
             {pin ? (
               <>
@@ -249,15 +260,15 @@ export default function Settings() {
           </Section>
 
           <Section label="Apagar">
-            <p className="text-[0.9375rem] text-ink-2">Remove todos os registros e o perfil deste aparelho. Não pode ser desfeito.</p>
+            <p className="text-[0.9375rem] text-ink-2">Remove todos os registros e o perfil deste aparelho e da sua conta na nuvem. Não pode ser desfeito.</p>
             <Button variant="secondary" className="self-start" onClick={() => setWipe(true)}>
-              Apagar tudo deste aparelho
+              Apagar tudo
             </Button>
           </Section>
         </div>
       </div>
 
-      <WipeSheet open={wipe} onClose={() => setWipe(false)} title="Apagar tudo?">
+      <WipeSheet open={wipe} onClose={() => setWipe(false)} title="Apagar tudo?" everywhere>
         <p>Isso remove check-ins, blocos, impulsos, lapsos e o perfil. Se quiser guardar uma cópia, exporte o backup antes.</p>
       </WipeSheet>
 

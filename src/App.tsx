@@ -10,6 +10,7 @@ import Today from '@/routes/Today';
 
 const Onboarding = lazy(() => import('@/routes/Onboarding'));
 const Lock = lazy(() => import('@/routes/Lock'));
+const Login = lazy(() => import('@/routes/Login'));
 const CheckIn = lazy(() => import('@/routes/CheckIn'));
 const Focus = lazy(() => import('@/routes/Focus'));
 const Sos = lazy(() => import('@/routes/Sos'));
@@ -42,6 +43,12 @@ function Gate() {
   useInactivityLock();
 
   if (status === 'booting') return <Splash />;
+  if (status === 'signedOut')
+    return (
+      <Suspense fallback={<Splash />}>
+        <Login />
+      </Suspense>
+    );
   if (status === 'locked')
     return (
       <Suspense fallback={<Splash />}>

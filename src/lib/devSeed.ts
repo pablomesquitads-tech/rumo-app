@@ -68,7 +68,7 @@ export function installDevSeed() {
     location.assign('/');
   };
   w.rumoReset = async () => {
-    await useApp.getState().wipe();
+    await useApp.getState().wipe(false);
     location.assign('/');
   };
   // ?demo na URL: semeia automaticamente um perfil vazio (capturas de tela headless).

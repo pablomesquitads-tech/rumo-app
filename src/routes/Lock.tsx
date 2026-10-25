@@ -147,11 +147,13 @@ export function WipeSheet({
   onClose,
   title,
   children,
+  everywhere = false,
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
+  everywhere?: boolean;
 }) {
   const wipe = useApp((s) => s.wipe);
   const [typed, setTyped] = useState('');
@@ -181,12 +183,12 @@ export function WipeSheet({
             disabled={!ok || busy}
             onClick={async () => {
               setBusy(true);
-              await wipe();
+              await wipe(everywhere);
               setBusy(false);
               onClose();
             }}
           >
-            {busy ? 'Apagando…' : 'Apagar tudo deste aparelho'}
+            {busy ? 'Apagando…' : everywhere ? 'Apagar tudo' : 'Apagar deste aparelho'}
           </Button>
         </div>
       </div>
@@ -200,7 +202,7 @@ function ForgotSheet({ open, onClose }: { open: boolean; onClose: () => void }) 
       <p>
         Seus registros estão cifrados com uma chave que só o seu PIN gera. Ninguém, nem o Rumo, consegue abrir esses dados sem ele.
       </p>
-      <p>Se não lembrar, dá para apagar tudo e começar de novo neste aparelho. Isso não pode ser desfeito.</p>
+      <p>Se não lembrar, apague os dados deste aparelho. A cópia cifrada na sua conta volta logo em seguida.</p>
     </WipeSheet>
   );
 }

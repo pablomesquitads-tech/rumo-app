@@ -5,6 +5,8 @@ import { emptyData } from './defaults';
 
 interface KvRow extends Sealed {
   key: CollectionKey;
+  /** Momento da última alteração (ms), usado para sincronizar. */
+  rev?: number;
 }
 
 interface MetaRow {
@@ -88,7 +90,8 @@ export async function setPin(pin: string | null): Promise<void> {
   await db.transaction('rw', db.kv, db.meta, async () => {
     await db.meta.put(row);
     for (const k of Object.keys(data) as CollectionKey[]) {
-      await db.kv.put({ key: k, ...(await seal(key, data[k])) });
+      const prev = await db.kv.get(k);
+      await db.kv.put({ key: k, rev: prev?.rev, ...(await seal(key, data[k])) });
     }
   });
 }
@@ -107,9 +110,14 @@ export async function loadAll(): Promise<AppData> {
   return { ...emptyData(), ...out, settings: { ...emptyData().settings, ...out.settings } };
 }
 
-export async function saveCollection<K extends CollectionKey>(key: K, value: AppData[K]): Promise<void> {
+export async function saveCollection<K extends CollectionKey>(key: K, value: AppData[K], rev = Date.now()): Promise<void> {
   if (!activeKey) return;
-  await db.kv.put({ key, ...(await seal(activeKey, value)) });
+  await db.kv.put({ key, rev, ...(await seal(activeKey, value)) });
+}
+
+export async function loadRevs(): Promise<Map<CollectionKey, number>> {
+  const rows = await db.kv.toArray();
+  return new Map(rows.map((r) => [r.key, r.rev ?? 0]));
 }
 
 export async function wipeAll(): Promise<void> {
